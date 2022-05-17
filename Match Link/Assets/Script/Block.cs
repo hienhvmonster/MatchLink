@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
+    private BlockType myBlockType;
+    public int maxNormalBlock = 1;
+
     public float fallSpeed = .2f;
     public float minDistanceAllow = .05f;
     private bool isDrop = false;
@@ -14,6 +17,7 @@ public class Block : MonoBehaviour
         {
             Debug.LogError("Block spawn at null", this);
         }
+        RandomNormalBlockType();
         Drop(blockContainer.transform);
     }
 
@@ -39,8 +43,27 @@ public class Block : MonoBehaviour
         
     }
 
-    public void DestroyBlock()
+    public Block DestroyBlock()
     {
+        return this;
+    }
 
+    public void RandomNormalBlockType()
+    {
+        int rand = Random.Range(0, maxNormalBlock);
+        switch (rand)
+        {
+            case 0:
+                {
+                    myBlockType = new BlueBlock();
+                    break;
+                }
+        }
+    }
+
+    private void Update()
+    {
+        if (transform.lossyScale != Vector3.one)
+            transform.localScale = new Vector3(1 / transform.lossyScale.x, 1 / transform.lossyScale.y, 1 / transform.lossyScale.z);
     }
 }

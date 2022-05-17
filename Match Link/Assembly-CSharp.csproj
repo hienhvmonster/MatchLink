@@ -58,9 +58,11 @@
   <ItemGroup>
     <Compile Include="Assets\Script\AllBoardsManager.cs" />
     <Compile Include="Assets\Script\Board.cs" />
+    <Compile Include="Assets\Script\BlockContainer.cs" />
+    <Compile Include="Assets\Script\BlockType.cs" />
     <Compile Include="Assets\Script\GameState.cs" />
     <Compile Include="Assets\Script\Block.cs" />
-    <Compile Include="Assets\Script\BlockContainer.cs" />
+    <Compile Include="Assets\Script\BlueBlock.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

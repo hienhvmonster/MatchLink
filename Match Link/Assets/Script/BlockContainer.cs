@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class BlockContainer : MonoBehaviour
 {
-    private Board myBoard;
     private Block myBlock;
 
-    public void BlockContainerInit(Board board)
+    public void BlockContainerInit(Block block)
     {
-        if(board == null)
+        SetMyBlock(block);
+    }
+
+
+    private void SetMyBlock(Block block)
+    {
+        if(block == null)
         {
-            Debug.LogError("BlockContainer in null board", this);
-            return;
+            Debug.LogError(name + " contains null block", this);
         }
-        myBoard = board;
+        myBlock = block;
     }
 
-    public Board GetBoard()
+    public Block DestroyBlock()
     {
-        return myBoard;
+        return myBlock.DestroyBlock();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DropBlock(Transform nextDrop)
     {
-        
+        myBlock.Drop(nextDrop);
+        myBlock = null;
     }
 }

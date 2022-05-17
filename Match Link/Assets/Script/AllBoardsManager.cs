@@ -36,27 +36,34 @@ public class AllBoardsManager : MonoBehaviour
         }
     }
 
-    public void GenerateBlock(Transform blockContainer)//fix this
+    public Block GenerateBlock(BlockContainer blockContainer)
     {
         if (blockContainer == null)
         {
-            Debug.LogWarning("Generate block in null");
-            return;
+            Debug.LogError("Generate block in null");
+            return null;
         }
-        if (blockContainer.GetComponentInChildren<Block>() != null)//block container already contain a block added by default
+
+        Block block = blockContainer.GetComponentInChildren<Block>();
+        if (block != null)//block container already contain a block added by default
         {
             GameObject blockTmp = Instantiate(blockPrefabs[Random.Range(0, blockPrefabs.Length)], dropDownBlockContainer);
             DropDownBlockEnqueue(blockTmp.GetComponent<Block>());
-            return;
+            return block;
         }
-        Instantiate(blockPrefabs[Random.Range(0, blockPrefabs.Length)], blockContainer);
+        GameObject blockTmp2 = Instantiate(blockPrefabs[Random.Range(0, blockPrefabs.Length)], blockContainer.transform);
+        return blockTmp2.GetComponent<Block>();
     }
 
     public void ReturnDropDownBlock(Block block)
     {
+        if (block == null)
+        {
+            return;
+        }
         block.transform.SetParent(dropDownBlockContainer);
         block.transform.localPosition = Vector3.zero;
-        DropDownBlockEnqueue(block);
+        DropDownBlockEnqueue(block); 
     }
 
     public Block GetDropDownBlock(BlockContainer blockContainer, Vector3 dropPosition)
@@ -74,5 +81,20 @@ public class AllBoardsManager : MonoBehaviour
     private Block DropDownBlockDequeue()
     {
         return dropDownBlocks.Dequeue();
+    }
+
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10;
+            Debug.Log("Mouse Pos: " + Camera.main.ScreenToWorldPoint(mousePos));
+            foreach(Board b in boards)
+            {
+                b.DestroyBlock(Camera.main.ScreenToWorldPoint(mousePos), true);
+            }
+        }
     }
 }
